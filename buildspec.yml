@@ -4,11 +4,7 @@ phases:
     commands:
       - npm install
       - export BUCKET=codepipeline-us-east-1-875168509671
-      - aws cloudformation package \
-          --template-file template.yaml \
-          --s3-bucket $BUCKET \
-          --output-template-file outputtemplate.yaml \
-          --s3-prefix $(date +%Y-%m-%d)
+      - aws cloudformation package --template-file template.yaml --s3-bucket $BUCKET --output-template-file outputtemplate.yaml --s3-prefix $(date +%Y-%m-%d)
 artifacts:
   type: zip
   files:
