@@ -19,11 +19,12 @@ Resources:
             CodeUri: hello_world/
             Handler: app.lambdaHandler
             Runtime: nodejs8.10
+            AutoPublishAlias: live # Instructs SAM to automatically publish a new version of the Lambda function for each new deployment and link it to the live alias.
+            DeploymentPreference: # attribute configures the type of rollout pattern to use.
+                Type: Linear10PercentEvery1Minute
             Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
                 Variables:
                     PARAM1: VALUE
-            DeploymentPreference: # attribute configures the type of rollout pattern to use.
-                Type: Linear10PercentEvery1Minute
             Events:
                 HelloWorld:
                     Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
