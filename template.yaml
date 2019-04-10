@@ -4,21 +4,28 @@ Description: >
     sam-app
 
     Sample SAM Template for sam-app
-    
+
+Parameters:
+  # For more details on managing environments in serverless applications see the
+  # article at https://medium.com/2pax/managing-multi-environment-serverless-architecture-using-aws-an-investigation-6cd6501d261e
+  StageName:
+    Type: String
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
     Function:
         Timeout: 3
 
-
 Resources:
-
     HelloWorldFunction:
         Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
         Properties:
+            FunctionName: !Sub "lambda-sam-pipeline-${StageName}-hello"
             CodeUri: hello_world/
             Handler: app.lambdaHandler
             Runtime: nodejs8.10
+            Tags:
+                Environment: !Ref StageName
             AutoPublishAlias: live # Instructs SAM to automatically publish a new version of the Lambda function for each new deployment and link it to the live alias.
             DeploymentPreference: # attribute configures the type of rollout pattern to use.
                 Type: Linear10PercentEvery1Minute
@@ -33,7 +40,6 @@ Resources:
                         Method: get
 
 Outputs:
-
     HelloWorldApi:
       Description: "API Gateway endpoint URL for Prod stage for Hello World function"
       Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
