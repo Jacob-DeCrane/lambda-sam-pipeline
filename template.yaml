@@ -11,6 +11,9 @@ Parameters:
   StageName:
     Type: String
 
+Conditions:
+  DevDeploy: !Equals [!Ref StageName, "dev"]
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
     Function:
@@ -28,7 +31,7 @@ Resources:
                 Environment: !Ref StageName
             AutoPublishAlias: live # Instructs SAM to automatically publish a new version of the Lambda function for each new deployment and link it to the live alias.
             DeploymentPreference: # attribute configures the type of rollout pattern to use.
-                Type: Linear10PercentEvery1Minute
+                Type: !If [DevDeploy, AllAtOnce, Linear10PercentEvery1Minute]
             Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
                 Variables:
                     PARAM1: VALUE
