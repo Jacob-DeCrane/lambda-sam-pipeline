@@ -5,8 +5,6 @@ phases:
       - cd hello_world
       - npm install
       - cd ..
-      - export BUCKET=codepipeline-us-east-1-875168509671
-      - export S3_PREFIX=sam-pipeline/compiledCloudFormationTemplates
       - aws cloudformation package --template-file template.yaml --output-template-file outputtemplate.yaml --s3-bucket $BUCKET --s3-prefix $S3_PREFIX
 artifacts:
   type: zip
