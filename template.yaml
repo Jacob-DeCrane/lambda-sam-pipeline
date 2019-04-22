@@ -33,8 +33,7 @@ Resources:
                 Environment: !Ref StageName
             AutoPublishAlias: live # Instructs SAM to automatically publish a new version of the Lambda function for each new deployment and link it to the live alias.
             DeploymentPreference: # attribute configures the type of rollout pattern to use.
-                Enabled: !If [ProdDeploy, true, false]
-                Type: Linear10PercentEvery1Minute
+                Type: !If [ProdDeploy, Linear10PercentEvery1Minute, AllAtOnce]
             Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
                 Variables:
                     PARAM1: VALUE
